@@ -95,6 +95,15 @@ public class ComplexNumber {
         return 0.0;
     }
     
+    /**
+     * Adds a complex number to this complex number. This operation is 
+     * commutative.
+     * @param addend The complex number to add. For example, 0.25 + 
+     * 0.75<i>i</i>.
+     * @return The sum of this this complex number and <code>addend</code>. In 
+     * the example, if this number is 0.75 + 0.25<i>i</i>, the result would be 1 
+     * + <i>i</i>.
+     */
     public ComplexNumber plus(ComplexNumber addend) {
         double sumRe = this.realPart + addend.realPart;
         double sumIm = this.imagPart + addend.imagPart;
@@ -112,14 +121,31 @@ public class ComplexNumber {
         return new ComplexNumber(-this.realPart, -this.imagPart);
     }
     
-    // TODO: Write tests for this
+    /**
+     * Subtracts a complex number from this complex number. This operation is 
+     * not commutative.
+     * @param subtrahend The complex number to subtract. For example, 1.0 + 
+     * @return The subtraction
+     */
     public ComplexNumber minus(ComplexNumber subtrahend) {
-        return this;
+        return this.plus(subtrahend.negate());
     }
     
-    // TODO: Write tests for this
+    /**
+     * Multiplies this complex number by another complex number. This operation 
+     * is commutative.
+     * @param multiplicand The complex number to multiply by. For example, 0.25 
+     * + 0.75<i>i</i>.
+     * @return The product of this complex number by <code>multiplicand</code>. 
+     * For example, if this number is 0.75 + 0.25<i>i</i>, times the example 
+     * given above, the result would be 0.0 + 0.625<i>i</i>.
+     */
     public ComplexNumber times(ComplexNumber multiplicand) {
-        return this;
+        double re = this.realPart * multiplicand.realPart - this.imagPart 
+                * multiplicand.imagPart;
+        double im = this.realPart * multiplicand.imagPart + this.imagPart 
+                * multiplicand.realPart;
+        return new ComplexNumber(re, im);
     }
     
     // TODO: Write tests for this

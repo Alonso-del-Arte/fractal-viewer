@@ -132,7 +132,7 @@ public class ComplexNumberNGTest {
         double expIm = addendAIm + addendBIm;
         ComplexNumber expected = new ComplexNumber(expRe, expIm);
         ComplexNumber actual = addendA.plus(addendB);
-        assertEquals(expected, actual);
+        assertEquals(actual, expected);
     }
     
     @Test
@@ -152,13 +152,18 @@ public class ComplexNumberNGTest {
     @Test
     public void testMinus() {
         System.out.println("minus");
-        ComplexNumber addend = null;
-        ComplexNumber instance = null;
-        ComplexNumber expResult = null;
-//        ComplexNumber result = instance.minus(addend);
-//        assertEquals(result, expResult);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double minuendRe = -0.5 + Math.random();
+        double minuendIm = -0.5 + Math.random();
+        ComplexNumber minuend = new ComplexNumber(minuendRe, minuendIm);
+        double subtrahendRe = -0.5 + Math.random();
+        double subtrahendIm = -0.5 + Math.random();
+        ComplexNumber subtrahend = new ComplexNumber(subtrahendRe, 
+                subtrahendIm);
+        double expRe = minuendRe - subtrahendRe;
+        double expIm = minuendIm - subtrahendIm;
+        ComplexNumber expected = new ComplexNumber(expRe, expIm);
+        ComplexNumber actual = minuend.minus(subtrahend);
+        assertEquals(actual, expected);
     }
 
     /**
@@ -167,13 +172,21 @@ public class ComplexNumberNGTest {
     @Test
     public void testTimes() {
         System.out.println("times");
-        ComplexNumber addend = null;
-        ComplexNumber instance = null;
-        ComplexNumber expResult = null;
-//        ComplexNumber result = instance.times(addend);
-//        assertEquals(result, expResult);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double multiplicandARe = 1.0 + Math.random();
+        double multiplicandAIm = 1.0 + Math.random();
+        ComplexNumber multiplicandA = new ComplexNumber(multiplicandARe, 
+                multiplicandAIm);
+        double multiplicandBRe = 1.0 + Math.random();
+        double multiplicandBIm = 1.0 + Math.random();
+        ComplexNumber multiplicandB = new ComplexNumber(multiplicandBRe, 
+                multiplicandBIm);
+        double expRe = multiplicandARe * multiplicandBRe - multiplicandAIm 
+                * multiplicandBIm;
+        double expIm = multiplicandARe * multiplicandBIm + multiplicandAIm 
+                * multiplicandBRe;
+        ComplexNumber expected = new ComplexNumber(expRe, expIm);
+        ComplexNumber actual = multiplicandA.times(multiplicandB);
+        assertEquals(actual, expected);
     }
 
     /**
