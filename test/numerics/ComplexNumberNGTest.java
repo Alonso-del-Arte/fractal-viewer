@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2021 Alonso del Arte
+ *
+ * This program is free software: you can redistribute it and/or modify it under 
+ * the terms of the GNU General Public License as published by the Free Software 
+ * Foundation, either version 3 of the License, or (at your option) any later 
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT 
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more 
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with 
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package numerics;
 
@@ -111,13 +122,28 @@ public class ComplexNumberNGTest {
     @Test
     public void testPlus() {
         System.out.println("plus");
-        ComplexNumber addend = null;
-        ComplexNumber instance = null;
-        ComplexNumber expResult = null;
-//        ComplexNumber result = instance.plus(addend);
-//        assertEquals(result, expResult);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double addendARe = -0.5 + Math.random();
+        double addendAIm = -0.5 + Math.random();
+        ComplexNumber addendA = new ComplexNumber(addendARe, addendAIm);
+        double addendBRe = -0.5 + Math.random();
+        double addendBIm = -0.5 + Math.random();
+        ComplexNumber addendB = new ComplexNumber(addendBRe, addendBIm);
+        double expRe = addendARe + addendBRe;
+        double expIm = addendAIm + addendBIm;
+        ComplexNumber expected = new ComplexNumber(expRe, expIm);
+        ComplexNumber actual = addendA.plus(addendB);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void testNegate() {
+        System.out.println("negate");
+        double re = 1.0 + Math.random();
+        double im = 1.0 + Math.random();
+        ComplexNumber someNumber = new ComplexNumber(re, im);
+        ComplexNumber expected = new ComplexNumber(-re, -im);
+        ComplexNumber actual = someNumber.negate();
+        assertEquals(actual, expected);
     }
 
     /**
