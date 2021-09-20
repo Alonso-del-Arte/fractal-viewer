@@ -21,7 +21,9 @@ package numerics;
  * Immutable class to represent complex numbers. A complex number consists of a 
  * real part and an imaginary part: <i>a</i> + <i>bi</i>, where <i>a</i> and 
  * <i>b</i> are real numbers and <i>i</i> is the imaginary unit, the number such 
- * that <i>i</i><sup>2</sup> = &minus;1.
+ * that <i>i</i><sup>2</sup> = &minus;1. The real part is represented by a 
+ * 64-bit floating point number, likewise for the imaginary part divided by 
+ * <i>i</i>.
  * @author Alonso del Arte
  */
 public class ComplexNumber {
@@ -33,6 +35,20 @@ public class ComplexNumber {
         return this.realPart + " + " + this.imagPart + "i";
     }
     
+    /**
+     * Determines whether this <code>ComplexNumber</code> object is equal to 
+     * some other object.
+     * @param obj The object to compare for equality. Examples: 0.5 &minus; 
+     * 0.2<i>i</i>, 0.5 + 14.134725141734695<i>i</i>, &minus;0.5 + 
+     * 14.134725141734695<i>i</i>, a <code>LocalDate</code> object for today's 
+     * date, and null.
+     * @return True only if <code>obj</code> is an object of the same runtime 
+     * class as this object and both the real and imaginary parts match. Suppose 
+     * this object represents the complex number 0.5 + 
+     * 14.134725141734695<i>i</i>. Then, of the examples, only for 0.5 + 
+     * 14.134725141734695<i>i</i> would this function return true. It would 
+     * return false for the others.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -51,9 +67,17 @@ public class ComplexNumber {
         return this.imagPart == other.imagPart;
     }
     
+    /**
+     * Gives a hash code for this complex number. Unique hash codes are likely 
+     * but not guaranteed.
+     * @return A hash code based on narrowing conversions of the real and 
+     * imaginary parts to 32-bit floating point numbers. For example, for 0.5 + 
+     * 14.134725141734695<i>i</i>, this might be 1097476054.
+     */
     @Override
     public int hashCode() {
-        return 0;
+        float intermediate = (float) this.realPart + (float) this.imagPart;
+        return Float.floatToIntBits(intermediate);
     }
     
     // TODO: Write tests for this
@@ -77,23 +101,29 @@ public class ComplexNumber {
         return new ComplexNumber(sumRe, sumIm);
     }
     
-    // TODO: Write tests for this
+    /**
+     * Multiplies this complex number by &minus;1. Given <i>a</i> + <i>bi</i>, 
+     * this function returns &minus;<i>a</i> &minus; <i>bi</i>.
+     * @return This number multiplied by &minus;1. For example, if this number 
+     * is 1.3 &minus; 2.5<i>i</i>, this function would return &minus;1.3 + 
+     * 2.5<i>i</i>.
+     */
     public ComplexNumber negate() {
+        return new ComplexNumber(-this.realPart, -this.imagPart);
+    }
+    
+    // TODO: Write tests for this
+    public ComplexNumber minus(ComplexNumber subtrahend) {
         return this;
     }
     
     // TODO: Write tests for this
-    public ComplexNumber minus(ComplexNumber addend) {
+    public ComplexNumber times(ComplexNumber multiplicand) {
         return this;
     }
     
     // TODO: Write tests for this
-    public ComplexNumber times(ComplexNumber addend) {
-        return this;
-    }
-    
-    // TODO: Write tests for this
-    public ComplexNumber divides(ComplexNumber addend) {
+    public ComplexNumber divides(ComplexNumber divisor) {
         return this;
     }
     
