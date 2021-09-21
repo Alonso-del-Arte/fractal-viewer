@@ -115,9 +115,35 @@ public class ComplexNumberNGTest {
         String msg = "Sets of complex numbers, hash codes should be same size";
         assertEquals(hashes.size(), numbers.size(), msg);
     }
+    
+    /**
+     * Test of the getRealPart function, of the ComplexNumber class.
+     */
+    @Test
+    public void testGetRealPart() {
+        System.out.println("getRealPart");
+        double expected = 1.0 + Math.random();
+        double im = 1.0 + Math.random();
+        ComplexNumber someNumber = new ComplexNumber(expected, im);
+        double actual = someNumber.getRealPart();
+        assertEquals(actual, expected);
+    }
+    
+    /**
+     * Test of the getImaginaryPart function, of the ComplexNumber class.
+     */
+    @Test
+    public void testGetImaginaryPart() {
+        System.out.println("getImaginaryPart");
+        double re = 1.0 + Math.random();
+        double expected = 1.0 + Math.random();
+        ComplexNumber someNumber = new ComplexNumber(re, expected);
+        double actual = someNumber.getImaginaryPart();
+        assertEquals(actual, expected);
+    }
 
     /**
-     * Test of plus method, of class ComplexNumber.
+     * Test of the plus function, of the ComplexNumber class.
      */
     @Test
     public void testPlus() {
@@ -147,7 +173,7 @@ public class ComplexNumberNGTest {
     }
 
     /**
-     * Test of minus method, of class ComplexNumber.
+     * Test of the minus function, of the ComplexNumber class.
      */
     @Test
     public void testMinus() {
@@ -167,7 +193,7 @@ public class ComplexNumberNGTest {
     }
 
     /**
-     * Test of times method, of class ComplexNumber.
+     * Test of the times function, of the ComplexNumber class.
      */
     @Test
     public void testTimes() {
@@ -190,7 +216,7 @@ public class ComplexNumberNGTest {
     }
 
     /**
-     * Test of divides method, of class ComplexNumber.
+     * Test of the divides function, of the ComplexNumber class.
      */
     @Test
     public void testDivides() {

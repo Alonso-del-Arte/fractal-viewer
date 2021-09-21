@@ -80,16 +80,30 @@ public class ComplexNumber {
         return Float.floatToIntBits(intermediate);
     }
     
-    // TODO: Write tests for this
+    /**
+     * Gets the real part of this complex number. For the example, suppose that 
+     * this number is 0.5 + 14.134725141734695<i>i</i>.
+     * @return The real part of this complex number. In the example, 0.5.
+     */
     public double getRealPart() {
-        return 0.0;
+        return this.realPart;
+    }
+    
+    /**
+     * Gets the imaginary part of this complex number, divided by <i>i</i>. For 
+     * the example, suppose that this number is 0.5 + 
+     * 14.134725141734695<i>i</i>.
+     * @return The imaginary part of this complex number, divided by <i>i</i>.  
+     * In the example, 14.134725141734695.
+     */
+    public double getImaginaryPart() {
+        return this.imagPart;
     }
     
     // TODO: Write tests for this
-    public double getImaginaryPart() {
+    public double norm() {
         return 0.0;
     }
-    
     // TODO: Write tests for this
     public double abs() {
         return 0.0;
