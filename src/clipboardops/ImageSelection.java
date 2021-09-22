@@ -40,20 +40,28 @@ public class ImageSelection implements Transferable, ClipboardOwner {
     
     private boolean clipboardOwnershipFlag = true;
 
+    // TODO: Write tests for this
+    @Override
     public DataFlavor[] getTransferDataFlavors() {
         DataFlavor[] array = {};
         return array;
     }
 
+    // TODO: Write tests for this
+    @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return false;
     }
 
+    // TODO: Write tests for this
+    @Override
     public Object getTransferData(DataFlavor flavor) 
             throws UnsupportedFlavorException, IOException {
         return "Sorry, not implemented yet";
     }
     
+    // TODO: Write tests for this
+    @Override
     public void lostOwnership(Clipboard clipboard, Transferable contents) {
         // TODO: Write tests for this
     }
@@ -63,6 +71,7 @@ public class ImageSelection implements Transferable, ClipboardOwner {
      * @return True if the instance does have ownership of the clipboard, false 
      * otherwise.
      */
+    // TODO: Write tests for this
     public boolean hasOwnership() {
         return this.clipboardOwnershipFlag;
     }
