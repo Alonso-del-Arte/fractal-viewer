@@ -47,7 +47,9 @@ public class ComplexNumber {
      * this object represents the complex number 0.5 + 
      * 14.134725141734695<i>i</i>. Then, of the examples, only for 0.5 + 
      * 14.134725141734695<i>i</i> would this function return true. It would 
-     * return false for the others.
+     * return false for all the others, even the ones of the same runtime class 
+     * for which the real part matches but the imaginary part does not, or the 
+     * imaginary part matches but the real part does not.
      */
     @Override
     public boolean equals(Object obj) {
@@ -68,8 +70,11 @@ public class ComplexNumber {
     }
     
     /**
-     * Gives a hash code for this complex number. Unique hash codes are likely 
-     * but not guaranteed.
+     * Gives a hash code for this complex number. Unique hash codes during a 
+     * given session are likely but not guaranteed. In particular, note that 
+     * numbers with real parts that differ by less than 10<sup>&minus;45</sup> 
+     * and/or imaginary parts that are similarly close might get the same hash 
+     * code.
      * @return A hash code based on narrowing conversions of the real and 
      * imaginary parts to 32-bit floating point numbers. For example, for 0.5 + 
      * 14.134725141734695<i>i</i>, this might be 1097476054.
@@ -100,13 +105,31 @@ public class ComplexNumber {
         return this.imagPart;
     }
     
-    // TODO: Write tests for this
+    /**
+     * Gives the norm of this complex number. The formula is <i>N</i>(<i>a</i> + 
+     * <i>bi</i>) = <i>a</i><sup>2</sup> + <i>b</i><sup>2</sup>.
+     * @return The norm. For example, if this number is &minus;2 + <i>i</i>, 
+     * this function would return 5.0.
+     */
     public double norm() {
-        return 0.0;
+        return this.realPart * this.realPart + this.imagPart * this.imagPart;
     }
-    // TODO: Write tests for this
+
+    /**
+     * Gives the absolute value of this complex number. The formula is 
+     * abs(<i>a</i> + <i>bi</i>) = &radic;(<i>a</i><sup>2</sup> 
+     * + <i>b</i><sup>2</sup>).
+     * @return The absolute value. For example, if this number is &minus;2 + 
+     * <i>i</i>, this function would return 2.23606797749979, a rational 
+     * approximation of &radic;5.0.
+     */
     public double abs() {
-        return 0.0;
+        return Math.sqrt(this.norm());
+    }
+    
+    // TODO: Write tests for this
+    public ComplexNumber conjugate() {
+        return this;
     }
     
     /**
@@ -139,7 +162,8 @@ public class ComplexNumber {
      * Subtracts a complex number from this complex number. This operation is 
      * not commutative.
      * @param subtrahend The complex number to subtract. For example, 1.0 + 
-     * @return The subtraction
+     * 2.5<i>i</i>.
+     * @return The subtraction.
      */
     public ComplexNumber minus(ComplexNumber subtrahend) {
         return this.plus(subtrahend.negate());
@@ -162,12 +186,36 @@ public class ComplexNumber {
         return new ComplexNumber(re, im);
     }
     
-    // TODO: Write tests for this
+    /**
+     * Divides this complex number by another. This is not a commutative 
+     * operation.
+     * @param divisor The number to divide by. For example, 6 + <i>i</i>.
+     * @return The result of the division. Given the example above, if this 
+     * number is 37.0 + 0.0<i>i</i>, the result would be 6 &minus; <i>i</i>.
+     * @throws IllegalArgumentException If <code>divisor</code> is 0.0 + 
+     * 0.0<i>i</i>.
+     */
     public ComplexNumber divides(ComplexNumber divisor) {
-        return this;
+        double norm = divisor.norm();
+        if (norm == 0.0) {
+            String excMsg = "Divisor 0 is not valid";
+            throw new IllegalArgumentException(excMsg);
+        }
+        double re = this.realPart * divisor.realPart + this.imagPart 
+                * divisor.imagPart;
+        double im = this.imagPart * divisor.realPart - this.realPart 
+                * divisor.imagPart;
+        re /= norm;
+        im /= norm;
+        return new ComplexNumber(re, im);
     }
     
     public ComplexNumber(double re, double im) {
+        if (!Double.isFinite(re) || !Double.isFinite(im)) {
+            String excMsg = "Real part " + re + " and imaginary part " + im 
+                    + "i is not a valid combination; both should be finite";
+            throw new IllegalArgumentException(excMsg);
+        }
         this.realPart = re;
         this.imagPart = im;
     }
