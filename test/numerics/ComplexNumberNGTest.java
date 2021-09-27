@@ -35,7 +35,8 @@ public class ComplexNumberNGTest {
     private static final double TEST_DELTA = 0.00000001;
     
     /**
-     * Test of the toString function, of the ComplexNumber class.
+     * Test of the toString function, of the ComplexNumber class. Including 
+     * spaces is highly recommended, but not necessary to pass this test.
      */
     public void testToString() {
         System.out.println("toString");
@@ -43,6 +44,39 @@ public class ComplexNumberNGTest {
         double im = 1.0 + Math.random();
         ComplexNumber number = new ComplexNumber(re, im);
         String expected = re + "+" + im + "i";
+        String actual = number.toString().replace(" ", "");
+        assertEquals(actual, expected);
+    }
+    
+    /**
+     * Another test of the toString function, of the ComplexNumber class. If the 
+     * real part is negative, it should have the "&minus;" character at the 
+     * beginning. Including spaces is highly recommended, but not necessary to 
+     * pass this test.
+     */
+    public void testToStringNegativeRealPart() {
+        System.out.println("toString");
+        double re = 1.0 + Math.random();
+        double im = 1.0 + Math.random();
+        ComplexNumber number = new ComplexNumber(-re, im);
+        String expected = "\u2212" + re + "+" + im + "i";
+        String actual = number.toString().replace(" ", "");
+        assertEquals(actual, expected);
+    }
+    
+    /**
+     * Another test of the toString function, of the ComplexNumber class. If the 
+     * imaginary part is negative, it should have the "&minus;" character 
+     * between the real part and the imaginary part. There should be no plus 
+     * sign between the real part and the imaginary part. Including spaces is 
+     * highly recommended, but not necessary to pass this test.
+     */
+    public void testToStringNegativeImaginaryPart() {
+        System.out.println("toString");
+        double re = 1.0 + Math.random();
+        double im = 1.0 + Math.random();
+        ComplexNumber number = new ComplexNumber(re, -im);
+        String expected = re + "\u2212" + im + "i";
         String actual = number.toString().replace(" ", "");
         assertEquals(actual, expected);
     }
@@ -190,6 +224,15 @@ public class ComplexNumberNGTest {
         double expected = Math.sqrt(re * re + im * im);
         double actual = someNumber.abs();
         assertEquals(actual, expected, TEST_DELTA);
+    }
+    
+    public void testConjugate() {
+        double re = 1.0 + Math.random();
+        double im = 1.0 + Math.random();
+        ComplexNumber someNumber = new ComplexNumber(re, im);
+        ComplexNumber expected = new ComplexNumber(re, -im);
+        ComplexNumber actual = someNumber.conjugate();
+        assertEquals(actual, expected);
     }
     
     /**
