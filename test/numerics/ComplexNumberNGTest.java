@@ -26,12 +26,17 @@ import org.testng.annotations.Test;
  * Tests of the ComplexNumber class.
  * @author Alonso del Arte
  */
+@Test
 public class ComplexNumberNGTest {
+    
+    /**
+     * Tolerance for floating point calculations.
+     */
+    private static final double TEST_DELTA = 0.00000001;
     
     /**
      * Test of the toString function, of the ComplexNumber class.
      */
-    @Test
     public void testToString() {
         System.out.println("toString");
         double re = 1.0 + Math.random();
@@ -42,7 +47,10 @@ public class ComplexNumberNGTest {
         assertEquals(actual, expected);
     }
     
-    @Test
+    /**
+     * Another test of the equals function, of the ComplexNumber class. A 
+     * ComplexNumber object should be equal to itself.
+     */
     public void testReferentialEquality() {
         double re = -0.5 + Math.random();
         double im = -0.5 + Math.random();
@@ -50,7 +58,10 @@ public class ComplexNumberNGTest {
         assertEquals(someNumber, someNumber);
     }
     
-    @Test
+    /**
+     * Another test of the equals function, of the ComplexNumber class. A 
+     * ComplexNumber object should not be equal to null.
+     */
     public void testNotEqualsNull() {
         ComplexNumber zero = new ComplexNumber(0.0, 0.0);
         String msg = "The number " + zero.toString() 
@@ -58,7 +69,11 @@ public class ComplexNumberNGTest {
         assertNotEquals(null, zero, msg);
     }
     
-    @Test
+    /**
+     * Another test of the equals function, of the ComplexNumber class. A 
+     * ComplexNumber object should not be equal to an object of an unrelated 
+     * class.
+     */
     public void testNotEqualsDiffClass() {
         double re = -0.5 + Math.random();
         double im = -0.5 + Math.random();
@@ -69,7 +84,11 @@ public class ComplexNumberNGTest {
         assertNotEquals(obj, someNumber, msg);
     }
     
-    @Test
+    /**
+     * Another test of the equals function, of the ComplexNumber class. A 
+     * complex number should not be equal to a complex number with a different 
+     * real part.
+     */
     public void testNotEqualsDiffRe() {
         double re = Math.random();
         double im = Math.random();
@@ -80,7 +99,11 @@ public class ComplexNumberNGTest {
         assertNotEquals(numberA, numberB, msg);
     }
     
-    @Test
+    /**
+     * Another test of the equals function, of the ComplexNumber class. A 
+     * complex number should not be equal to a complex number with a different 
+     * imaginary part.
+     */
     public void testNotEqualsDiffIm() {
         double re = Math.random();
         double im = Math.random();
@@ -91,8 +114,11 @@ public class ComplexNumberNGTest {
         assertNotEquals(numberA, numberB, msg);
     }
     
-    @Test
+    /**
+     * Test of the equals function, of the ComplexNumber class.
+     */
     public void testEquals() {
+        System.out.println("equals");
         double re = Math.random();
         double im = Math.random();
         ComplexNumber someNumber = new ComplexNumber(re, im);
@@ -100,7 +126,9 @@ public class ComplexNumberNGTest {
         assertEquals(someNumber, sameNumber);
     }
     
-    @Test
+    /**
+     * Test of the hashCode function, of the ComplexNumber class.
+     */
     public void testHashCode() {
         System.out.println("hashCode");
         HashSet<ComplexNumber> numbers = new HashSet<>();
@@ -119,33 +147,54 @@ public class ComplexNumberNGTest {
     /**
      * Test of the getRealPart function, of the ComplexNumber class.
      */
-    @Test
     public void testGetRealPart() {
         System.out.println("getRealPart");
         double expected = 1.0 + Math.random();
         double im = 1.0 + Math.random();
         ComplexNumber someNumber = new ComplexNumber(expected, im);
         double actual = someNumber.getRealPart();
-        assertEquals(actual, expected);
+        assertEquals(actual, expected, TEST_DELTA);
     }
     
     /**
      * Test of the getImaginaryPart function, of the ComplexNumber class.
      */
-    @Test
     public void testGetImaginaryPart() {
         System.out.println("getImaginaryPart");
         double re = 1.0 + Math.random();
         double expected = 1.0 + Math.random();
         ComplexNumber someNumber = new ComplexNumber(re, expected);
         double actual = someNumber.getImaginaryPart();
-        assertEquals(actual, expected);
+        assertEquals(actual, expected, TEST_DELTA);
     }
 
     /**
+     * Test of the norm function, of the ComplexNumber class.
+     */
+    public void testNorm() {
+        double re = 1.0 + Math.random();
+        double im = 1.0 + Math.random();
+        ComplexNumber someNumber = new ComplexNumber(re, im);
+        double expected = re * re + im * im;
+        double actual = someNumber.norm();
+        assertEquals(actual, expected, TEST_DELTA);
+    }
+    
+    /**
+     * Test of the abs function, of the ComplexNumber class.
+     */
+    public void testAbs() {
+        double re = 1.0 + Math.random();
+        double im = 1.0 + Math.random();
+        ComplexNumber someNumber = new ComplexNumber(re, im);
+        double expected = Math.sqrt(re * re + im * im);
+        double actual = someNumber.abs();
+        assertEquals(actual, expected, TEST_DELTA);
+    }
+    
+    /**
      * Test of the plus function, of the ComplexNumber class.
      */
-    @Test
     public void testPlus() {
         System.out.println("plus");
         double addendARe = -0.5 + Math.random();
@@ -161,7 +210,9 @@ public class ComplexNumberNGTest {
         assertEquals(actual, expected);
     }
     
-    @Test
+    /**
+     * Test of the negate function, of the ComplexNumber class.
+     */
     public void testNegate() {
         System.out.println("negate");
         double re = 1.0 + Math.random();
@@ -175,7 +226,6 @@ public class ComplexNumberNGTest {
     /**
      * Test of the minus function, of the ComplexNumber class.
      */
-    @Test
     public void testMinus() {
         System.out.println("minus");
         double minuendRe = -0.5 + Math.random();
@@ -195,7 +245,6 @@ public class ComplexNumberNGTest {
     /**
      * Test of the times function, of the ComplexNumber class.
      */
-    @Test
     public void testTimes() {
         System.out.println("times");
         double multiplicandARe = 1.0 + Math.random();
@@ -214,20 +263,127 @@ public class ComplexNumberNGTest {
         ComplexNumber actual = multiplicandA.times(multiplicandB);
         assertEquals(actual, expected);
     }
+    
+    /**
+     * Another test of the divides function, of the ComplexNumber class. 
+     * Dividing by zero should cause either ArithmeticException or 
+     * IllegalArgumentException.
+     */
+    @Test(expectedExceptions = {ArithmeticException.class, 
+        IllegalArgumentException.class})
+    public void testDivisionByZero() {
+        double re = -0.5 + Math.random();
+        double im = -0.5 + Math.random();
+        ComplexNumber someNumber = new ComplexNumber(re, im);
+        ComplexNumber zero = new ComplexNumber(0.0, 0.0);
+        ComplexNumber division = someNumber.divides(zero);
+        System.out.println(someNumber.toString() + " divided by " 
+                + zero.toString() + " is said to be " + division.toString());
+    }
 
     /**
      * Test of the divides function, of the ComplexNumber class.
      */
-    @Test
     public void testDivides() {
         System.out.println("divides");
-        ComplexNumber addend = null;
-        ComplexNumber instance = null;
-        ComplexNumber expResult = null;
-//        ComplexNumber result = instance.divides(addend);
-//        assertEquals(result, expResult);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double dividendRe = 1.0 + Math.random();
+        double dividendIm = 1.0 + Math.random();
+        ComplexNumber dividend = new ComplexNumber(dividendRe, dividendIm);
+        double divisorRe = 1.0 + Math.random();
+        double divisorIm = 1.0 + Math.random();
+        ComplexNumber divisor = new ComplexNumber(divisorRe, divisorIm);
+        double expNorm = divisorRe * divisorRe + divisorIm * divisorIm;
+        double expRe = dividendRe * divisorRe + dividendIm * divisorIm;
+        double expIm = dividendIm * divisorRe - dividendRe * divisorIm;
+        expRe /= expNorm;
+        expIm /= expNorm;
+        ComplexNumber expected = new ComplexNumber(expRe, expIm);
+        ComplexNumber actual = dividend.divides(divisor);
+        assertEquals(actual, expected);
+    }
+    
+    /**
+     * Test of the constructor. The constructor should reject &minus;&infin; for 
+     * the real part of the number.
+     */
+    @Test(expectedExceptions = {ArithmeticException.class, 
+        IllegalArgumentException.class})
+    public void testConstructorRejectsRealNegativeInfinity() {
+        double re = Double.NEGATIVE_INFINITY;
+        double im = Math.random();
+        ComplexNumber badNumber = new ComplexNumber(re, im);
+        System.out.println("Should not have been able to create " 
+                + badNumber.toString());
+    }
+    
+    /**
+     * Test of the constructor. The constructor should reject +&infin; for the 
+     * real part of the number.
+     */
+    @Test(expectedExceptions = {ArithmeticException.class, 
+        IllegalArgumentException.class})
+    public void testConstructorRejectsRealPositiveInfinity() {
+        double re = Double.POSITIVE_INFINITY;
+        double im = Math.random();
+        ComplexNumber badNumber = new ComplexNumber(re, im);
+        System.out.println("Should not have been able to create " 
+                + badNumber.toString());
+    }
+    
+    /**
+     * Test of the constructor. The constructor should reject &minus;&infin; for 
+     * the imaginary part of the number.
+     */
+    @Test(expectedExceptions = {ArithmeticException.class, 
+        IllegalArgumentException.class})
+    public void testConstructorRejectsImaginaryNegativeInfinity() {
+        double re = Math.random();
+        double im = Double.NEGATIVE_INFINITY;
+        ComplexNumber badNumber = new ComplexNumber(re, im);
+        System.out.println("Should not have been able to create " 
+                + badNumber.toString());
+    }
+    
+    /**
+     * Test of the constructor. The constructor should reject +&infin; for the 
+     * imaginary part of the number.
+     */
+    @Test(expectedExceptions = {ArithmeticException.class, 
+        IllegalArgumentException.class})
+    public void testConstructorRejectsImaginaryPositiveInfinity() {
+        double re = Math.random();
+        double im = Double.POSITIVE_INFINITY;
+        ComplexNumber badNumber = new ComplexNumber(re, im);
+        System.out.println("Should not have been able to create " 
+                + badNumber.toString());
+    }
+    
+    /**
+     * Test of the constructor. The constructor should reject NaN for the real 
+     * part of the number.
+     */
+    @Test(expectedExceptions = {ArithmeticException.class, 
+        IllegalArgumentException.class})
+    public void testConstructorRejectsRealNaN() {
+        double re = Double.NaN;
+        double im = Math.random();
+        ComplexNumber badNumber = new ComplexNumber(re, im);
+        System.out.println("Should not have been able to create " 
+                + badNumber.toString());
+    }
+    
+    /**
+     * Test of the constructor. The constructor should reject NaN for the 
+     * imaginary part of the number.
+     */
+    @Test(expectedExceptions = {ArithmeticException.class, 
+        IllegalArgumentException.class})
+    public void testConstructorRejectsImaginaryNaN() {
+        double re = Math.random();
+        double im = Double.NaN;
+        ComplexNumber badNumber = new ComplexNumber(re, im);
+        System.out.println("Should not have been able to create " 
+                + badNumber.toString());
     }
     
 }
