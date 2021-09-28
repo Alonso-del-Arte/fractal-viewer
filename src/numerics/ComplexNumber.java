@@ -30,9 +30,18 @@ public class ComplexNumber {
     
     private final double realPart, imagPart;
     
+    /**
+     * Gives a textual representation of this complex number. Note that if 
+     * either the real or imaginary part is negative, or if they both are, the 
+     * proper minus sign character will be used in the output.
+     * @return The textual representation. For example, if this number is 125 
+     * &minus; 7<i>i</i>, this would return "125.0 &minus; 7.0i".
+     */
     @Override
     public String toString() {
-        return this.realPart + " + " + this.imagPart + "i";
+        String intermediate = this.realPart + " + " + this.imagPart + "i";
+        intermediate = intermediate.replace("+ -", "- ");
+        return intermediate.replace("-", "\u2212");
     }
     
     /**
@@ -127,9 +136,15 @@ public class ComplexNumber {
         return Math.sqrt(this.norm());
     }
     
-    // TODO: Write tests for this
+    /**
+     * Gives the complex conjugate of this number. Note that the conjugate is 
+     * the same for a purely real number (meaning the imaginary part is 
+     * 0.0<i>i</i>.
+     * @return The conjugate. For example, if this number is 1.25 + 
+     * 3.75<i>i</i>, this would return 1.25 &minus; 3.75<i>i</i>.
+     */
     public ComplexNumber conjugate() {
-        return this;
+        return new ComplexNumber(this.realPart, -this.imagPart);
     }
     
     /**
