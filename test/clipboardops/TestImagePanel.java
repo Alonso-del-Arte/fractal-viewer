@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alonso del Arte
+ * Copyright (C) 2021 Alonso del Arte
  *
  * This program is free software: you can redistribute it and/or modify it under 
  * the terms of the GNU General Public License as published by the Free Software 
@@ -20,7 +20,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import javax.swing.*;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 /**
  * A simple JComponent that creates a window with a simple image for the purpose 
@@ -30,14 +33,14 @@ import javax.swing.*;
 public final class TestImagePanel extends JPanel {
     
     /**
-     * The background color, blue. RGB: 0000FF.
+     * The background color, a blue with a tinge of green. RGB: 0080FF.
      */
-    public static final Color BACKGROUND_COLOR = new Color(255);
+    public static final Color BACKGROUND_COLOR = new Color(33023);
     
     /**
-     * A blue green or green blue. RGB: 008080.
+     * A blue green or green blue. RGB: 40FFC0.
      */
-    public static final Color MEDIUM_GREEN = new Color(32896);
+    public static final Color MEDIUM_GREEN = new Color(4259776);
     
     /**
      * The height of this panel's paintable area. Does not include title bar, 
@@ -53,6 +56,10 @@ public final class TestImagePanel extends JPanel {
     
     private JFrame frame;
     
+    /**
+     * Paints a very simple image to the passed in <code>Graphics</code> object.
+     * @param g The <code>Graphics</code> object to paint to.
+     */
     @Override
     public void paintComponent(Graphics g) {
         int oneThirdHeight = PANEL_HEIGHT / 3;
@@ -64,15 +71,18 @@ public final class TestImagePanel extends JPanel {
         g.setColor(Color.BLACK);
         Font font = new Font(g.getFont().getFontName(), Font.PLAIN, 192);
         g.setFont(font);
-        g.drawString("\u68EE", 50, PANEL_HEIGHT - 50);
+        g.drawString("\u5CE0", 50, PANEL_HEIGHT - 50);
     }
     
+    /**
+     * Shows a panel with the test image painted on it.
+     */
     private void showPanel() {
-        frame = new JFrame("Test Image");
-        frame.add(this);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        this.frame = new JFrame("Test Image");
+        this.frame.add(this);
+        this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.frame.pack();
+        this.frame.setVisible(true);
     }
     
     /**
@@ -80,7 +90,7 @@ public final class TestImagePanel extends JPanel {
      * call this procedure in test tear down.
      */
     public void closePanel() {
-        frame.dispose();
+        this.frame.dispose();
     }
     
     /**
@@ -90,7 +100,7 @@ public final class TestImagePanel extends JPanel {
         this.setBackground(BACKGROUND_COLOR);
         Dimension prefDim = new Dimension(PANEL_WIDTH, PANEL_HEIGHT);
         this.setPreferredSize(prefDim);
-        showPanel();
+        this.showPanel();
     }
     
 }

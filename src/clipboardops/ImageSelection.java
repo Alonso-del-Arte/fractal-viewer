@@ -36,28 +36,50 @@ public class ImageSelection implements Transferable, ClipboardOwner {
     
     private static final DataFlavor SUPPORTED_FLAVOR = DataFlavor.imageFlavor;
     
-    private static final DataFlavor[] FLAVOR_ARRAY = {SUPPORTED_FLAVOR};
-    
-    private boolean clipboardOwnershipFlag = true;
+    private boolean clipboardOwnershipFlag = false;
 
-    // TODO: Write tests for this
+    /**
+     * Tells which "data flavors" this class supports. Specifically, 
+     * <code>imageFlavor</code> only.
+     * @return An array containing just one element: <code>imageFlavor</code>.
+     */
     @Override
     public DataFlavor[] getTransferDataFlavors() {
-        DataFlavor[] array = {};
+        DataFlavor[] array = {DataFlavor.imageFlavor};
         return array;
     }
 
-    // TODO: Write tests for this
+    /**
+     * Determines whether a given data "flavor" is supported by this class. Only 
+     * <code>imageFlavor</code> is supported.
+     * @param flavor The flavor to check for support. For example, 
+     * <code>javaFileListFlavor</code>.
+     * @return True only if <code>flavor</code> is <code>imageFlavor</code>. 
+     * False in any other case, like the example given above.
+     */
     @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return false;
+        return flavor.equals(SUPPORTED_FLAVOR);
     }
 
-    // TODO: Write tests for this
+    /**
+     * Returns the image held by this <code>ImageSelection</code> object.
+     * @param flavor The flavor to use. Should always be 
+     * <code>imageFlavor</code>.
+     * @return The image (it may be necessary to cast it to 
+     * <code>java.awt.Image</code>).
+     * @throws IOException If some problem other than a wrong flavor occurs.
+     * @throws NullPointerException If <code>flavor</code> is null.
+     * @throws UnsupportedFlavorException If <code>flavor</code> is not 
+     * <code>imageFlavor</code>.
+     */
     @Override
     public Object getTransferData(DataFlavor flavor) 
             throws UnsupportedFlavorException, IOException {
-        return "Sorry, not implemented yet";
+        if (!SUPPORTED_FLAVOR.equals(flavor)) {
+            throw new UnsupportedFlavorException(flavor);
+        }
+        return this.heldImage;
     }
     
     // TODO: Write tests for this
