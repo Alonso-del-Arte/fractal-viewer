@@ -76,7 +76,7 @@ public class ImageSelection implements Transferable, ClipboardOwner {
     @Override
     public Object getTransferData(DataFlavor flavor) 
             throws UnsupportedFlavorException, IOException {
-        if (!SUPPORTED_FLAVOR.equals(flavor)) {
+        if (!flavor.equals(SUPPORTED_FLAVOR)) {
             throw new UnsupportedFlavorException(flavor);
         }
         return this.heldImage;

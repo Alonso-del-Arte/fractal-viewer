@@ -159,10 +159,11 @@ public class ImageSelectionNGTest {
     
     /**
      * Another test of the getTransferData function, of the ImageSelection 
-     * class.
+     * class. The wrong data flavor should cause an exception.
      * @throws java.awt.datatransfer.UnsupportedFlavorException If this 
      * exception occurs, it should be caught by the TestNG test runner.
-     * @throws java.io.IOException This exception should not occur.
+     * @throws java.io.IOException This exception should not occur for this 
+     * test.
      */
     @Test(expectedExceptions = {UnsupportedFlavorException.class})
     public void testGetTransferDataRejectsWrongFlavor() 
@@ -172,6 +173,22 @@ public class ImageSelectionNGTest {
         System.out.println("Should not have been able to retrieve " 
                 + data.toString() + " with " 
                 + wrongFlavor.getHumanPresentableName());
+    }
+
+    /**
+     * Another test of the getTransferData function, of the ImageSelection 
+     * class. Null for the data flavor should cause an exception.
+     * @throws java.awt.datatransfer.UnsupportedFlavorException This exception 
+     * should not occur for this test.
+     * @throws java.io.IOException This exception should not occur for this 
+     * test.
+     */
+    @Test(expectedExceptions = {NullPointerException.class})
+    public void testGetTransferDataRejectsNull() 
+            throws UnsupportedFlavorException, IOException {
+        Object data = this.imgSel.getTransferData(null);
+        System.out.println("Should not have been able to retrieve " 
+                + data.toString() + " with null");
     }
 
     /**
