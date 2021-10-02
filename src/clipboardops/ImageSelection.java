@@ -17,8 +17,6 @@
  */
 package clipboardops;
 
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -30,14 +28,12 @@ import java.io.IOException;
  * Swing. This class is immutable except for clipboard ownership status.
  * @author Alonso del Arte
  */
-public class ImageSelection implements Transferable, ClipboardOwner {
+public class ImageSelection implements Transferable {
     
     private final Image heldImage;
     
     private static final DataFlavor SUPPORTED_FLAVOR = DataFlavor.imageFlavor;
     
-    private boolean clipboardOwnershipFlag = false;
-
     /**
      * Tells which "data flavors" this class supports. Specifically, 
      * <code>imageFlavor</code> only.
@@ -82,22 +78,6 @@ public class ImageSelection implements Transferable, ClipboardOwner {
         return this.heldImage;
     }
     
-    // TODO: Write tests for this
-    @Override
-    public void lostOwnership(Clipboard clipboard, Transferable contents) {
-        // TODO: Write tests for this
-    }
-    
-    /**
-     * Tells whether an instance of this class has ownership of the clipboard.
-     * @return True if the instance does have ownership of the clipboard, false 
-     * otherwise.
-     */
-    // TODO: Write tests for this
-    public boolean hasOwnership() {
-        return this.clipboardOwnershipFlag;
-    }
-
     /**
      * Sole constructor.
      * @param image The image to be made available to the system clipboard. This 
@@ -105,6 +85,10 @@ public class ImageSelection implements Transferable, ClipboardOwner {
      * <code>ImageSelection</code> object.
      */
     public ImageSelection(Image image) {
+        if (image == null) {
+            String excMsg = "Image must not be null";
+            throw new NullPointerException(excMsg);
+        }
         this.heldImage = image;
     }
     

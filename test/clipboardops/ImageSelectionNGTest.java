@@ -190,35 +190,18 @@ public class ImageSelectionNGTest {
         System.out.println("Should not have been able to retrieve " 
                 + data.toString() + " with null");
     }
-
-    /**
-     * Test of the lostOwnership procedure, of the ImageSelection class.
-     */
-    @Test
-    public void testLostOwnership() {
-        System.out.println("lostOwnership");
-        Clipboard clipboard = null;
-        Transferable contents = null;
-        ImageSelection instance = null;
-//        instance.lostOwnership(clipboard, contents);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of the hasOwnership function, of the ImageSelection class.
-     */
-    @Test
-    public void testHasOwnership() {
-        System.out.println("hasOwnership");
-        ImageSelection instance = null;
-        boolean expResult = false;
-//        boolean result = instance.hasOwnership();
-//        assertEquals(result, expResult);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
     
+    /**
+     * Test of the ImageSelection constructor. Trying to use null for the 
+     * constructor parameter should cause a null pointer exception.
+     */
+    @Test(expectedExceptions = {NullPointerException.class})
+    public void testConstructorRejectsNullImage() {
+        ImageSelection badSelection = new ImageSelection(null);
+        System.out.println("Should not have been able to create " 
+                + badSelection.toString() + " with null image");
+    }
+
     @AfterMethod
     public void tearDown() {
         this.reportClipboardContents();
