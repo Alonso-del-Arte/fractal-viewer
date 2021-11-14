@@ -17,6 +17,7 @@
 package clipboardops;
 
 import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
@@ -38,7 +39,7 @@ import org.testng.annotations.Test;
  * Tests of the ImageSelection class.
  * @author Alonso del Arte
  */
-public class ImageSelectionNGTest {
+public class ImageSelectionNGTest implements ClipboardOwner {
     
     private BufferedImage image;
     
@@ -68,6 +69,13 @@ public class ImageSelectionNGTest {
                 System.out.println("\"" + ioe.getMessage() + "\"");
             }
         }
+    }
+    
+    @Override
+    public void lostOwnership(Clipboard clipboard, Transferable contents) {
+        System.out.println("Test class has lost ownership of " 
+                + clipboard.getName() + " for a " 
+                + contents.getClass().getName());
     }
     
     /**
@@ -140,9 +148,11 @@ public class ImageSelectionNGTest {
     @Test
     public void testGetTransferData() {
         System.out.println("getTransferData");
-        Object data;
+        this.systemClipboard.setContents(this.imgSel, this);
+        Transferable contents = this.systemClipboard.getContents(this);
         try {
-            data = imgSel.getTransferData(DataFlavor.imageFlavor);
+            
+            Object data = contents.getTransferData(DataFlavor.imageFlavor);
             assertEquals(data, this.image);
         } catch (UnsupportedFlavorException ufe) {
             String msg = "Data test triggered UnsupportedFlavorException";
