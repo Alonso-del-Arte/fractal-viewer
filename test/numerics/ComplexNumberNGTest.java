@@ -43,7 +43,7 @@ public class ComplexNumberNGTest {
         double re = -1.0 + Math.random();
         double im = -1.0 + Math.random();
         ComplexNumber number = new ComplexNumber(re, im);
-        String expected = re + im + "i";
+        String expected = re + (im + "i");
         String actual = number.toASCIIString().replace(" ", "");
         assertEquals(actual, expected);
     }
