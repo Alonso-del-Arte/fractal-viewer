@@ -35,6 +35,20 @@ public class ComplexNumberNGTest {
     private static final double TEST_DELTA = 0.00000001;
     
     /**
+     * Test of the toASCIIString function, of the ComplexNumber class. Including 
+     * spaces is highly recommended, but not necessary to pass this test.
+     */
+    public void testToASCIIString() {
+        System.out.println("toASCIIString");
+        double re = -1.0 + Math.random();
+        double im = -1.0 + Math.random();
+        ComplexNumber number = new ComplexNumber(re, im);
+        String expected = re + im + "i";
+        String actual = number.toASCIIString().replace(" ", "");
+        assertEquals(actual, expected);
+    }
+    
+    /**
      * Test of the toString function, of the ComplexNumber class. Including 
      * spaces is highly recommended, but not necessary to pass this test.
      */

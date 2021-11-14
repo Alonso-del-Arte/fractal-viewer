@@ -44,6 +44,11 @@ public class ComplexNumber {
         return intermediate.replace("-", "\u2212");
     }
     
+    // TODO: Write tests for this
+    public String toASCIIString() {
+        return "Sorry, not implemented yet";
+    }
+    
     /**
      * Determines whether this <code>ComplexNumber</code> object is equal to 
      * some other object.
