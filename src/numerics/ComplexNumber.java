@@ -39,14 +39,19 @@ public class ComplexNumber {
      */
     @Override
     public String toString() {
-        String intermediate = this.realPart + " + " + this.imagPart + "i";
-        intermediate = intermediate.replace("+ -", "- ");
-        return intermediate.replace("-", "\u2212");
+        return this.toASCIIString().replace("-", "\u2212");
     }
     
-    // TODO: Write tests for this
+    /**
+     * Gives a textual representation of this complex number, using only ASCII 
+     * characters.
+     * @return The textual representation. For example, if this number is 125 
+     * &minus; 7<i>i</i>, this would return "125.0 - 7.0i".
+     */
     public String toASCIIString() {
-        return "Sorry, not implemented yet";
+        String intermediate = this.realPart + " + " + this.imagPart + "i";
+        intermediate = intermediate.replace("+ -", "- ");
+        return intermediate;
     }
     
     /**
