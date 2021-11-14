@@ -16,6 +16,10 @@
  */
 package fileops;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import static org.testng.Assert.*;
 
 import org.testng.annotations.Test;
@@ -25,6 +29,8 @@ import org.testng.annotations.Test;
  * @author Alonso del Arte
  */
 public class FileChooserWithOverwriteGuardNGTest {
+    
+    private File TEST_FILE;
     
     @Test
     public void testApproveSelection() {
