@@ -20,8 +20,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import static org.testng.Assert.*;
 
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 /**
@@ -32,11 +36,43 @@ public class FileChooserWithOverwriteGuardNGTest {
     
     private File TEST_FILE;
     
+    @BeforeSuite
+    public void setUpClass() {
+        // TODO: Create example existing file
+    }
+    
     @Test
     public void testApproveSelection() {
         System.out.println("approveSelection");
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+    
+    @AfterSuite
+    public void tearDownClass() {
+        // TODO: Delete example existing file
+    }
+    
+    /**
+     * Extends {@link FileChooserWithOverwriteGuard} so that the confirmation 
+     * dialog box response can be mocked so that the user running the tests 
+     * doesn't have to watch out and click on some dialog box that comes up. 
+     * Only {@link FileChooserWithOverwriteGuard#getConfirmationResponse()} is 
+     * overridden.
+     */
+    private static class MockFileChooser extends FileChooserWithOverwriteGuard {
+        
+        private int mockResponse = JOptionPane.OK_OPTION;
+        
+        void setMockResponse(int responseCode) {
+            this.mockResponse = responseCode;
+        }
+        
+        @Override
+        int getConfirmationResponse() {
+            return this.mockResponse;
+        }
+        
     }
     
 }

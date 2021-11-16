@@ -23,12 +23,31 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
- * Just a simple tweak on JFileChooser so that it asks before overwriting an 
- * existing file. This is done simply by overriding 
+ * Just a simple tweak on <code>JFileChooser</code> so that it asks before 
+ * overwriting an existing file. This is done simply by overriding 
  * <code>JFileChooser.approveSelection()</code>.
+ * <p>I believe that this file chooser will display files and directories marked 
+ * as hidden by the operating system, but I don't know that for certain. Consult 
+ * the <code>JFileChooser</code> documentation if you have any specific 
+ * requirements regarding hidden items.</p>
  * @author Alonso del Arte
  */
 // TODO: Write tests for this
 public class FileChooserWithOverwriteGuard extends JFileChooser {
+    
+    private static final String QUESTION 
+            = "Do you want to overwrite the existing file?";
+    
+    int getConfirmationResponse() {
+        return JOptionPane.showConfirmDialog(this, QUESTION, 
+                this.getSelectedFile().getName() + " already exists", 
+                JOptionPane.YES_NO_CANCEL_OPTION);
+    }
+    
+    // TODO: Write tests for this
+    @Override
+    public void approveSelection() {
+        super.approveSelection();
+    }
     
 }
