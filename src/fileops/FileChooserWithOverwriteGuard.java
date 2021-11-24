@@ -47,7 +47,7 @@ public class FileChooserWithOverwriteGuard extends JFileChooser {
     // TODO: Write tests for this
     @Override
     public void approveSelection() {
-        super.approveSelection();
+//        super.approveSelection();
     }
     
 }
