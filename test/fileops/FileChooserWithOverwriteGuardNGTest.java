@@ -23,12 +23,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import static org.testng.Assert.*;
 
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -44,13 +46,23 @@ public class FileChooserWithOverwriteGuardNGTest {
     private static final String TEMP_DIR_PATH 
             = System.getProperty("java.io.tmpdir");
     
-    private File TEST_NEW_FILE;
+    private File createdByTest;
     
-    private File TEST_EXISTING_FILE;
+    private File createdBySetUpClass;
     
     @BeforeSuite
     public void setUpClass() {
-        // TODO: Create example existing file
+        int number = RANDOM.nextInt();
+        String filename = TEMP_DIR_PATH + File.separatorChar + "ExistingFile" 
+                + number + ".txt";
+        this.createdBySetUpClass = new File(filename);
+        try (FileWriter writer = new FileWriter(this.createdBySetUpClass)) {
+            System.out.println("Successfully created " 
+                    + this.createdBySetUpClass.getName());
+            writer.write("This message was placed by setUpClass()");
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
     }
     
     @Test
@@ -58,16 +70,61 @@ public class FileChooserWithOverwriteGuardNGTest {
         System.out.println("approveSelection");
         String filename = TEMP_DIR_PATH + File.separatorChar + "NewFile" 
                 + RANDOM.nextInt() + ".txt";
-        TEST_NEW_FILE = new File(filename);
-        String preMsg = TEST_NEW_FILE.getName() + " should not already exist";
-        assert !TEST_NEW_FILE.exists() : preMsg;
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        this.createdByTest = new File(filename);
+        String preMsg = this.createdByTest.getName() 
+                + " should not already exist";
+        assert !this.createdByTest.exists() : preMsg;
+        MockFileChooser chooser = new MockFileChooser(JOptionPane.YES_OPTION);
+        chooser.setSelectedFile(this.createdByTest);
+        int expected = JFileChooser.APPROVE_OPTION;
+        int actual = chooser.showSaveDialog(null);
+        if (expected == actual) {
+            try (FileWriter writer = new FileWriter(this.createdByTest)) {
+                writer.write("This message placed by testApproveSelection()");
+            } catch (IOException ioe) {
+                String errMsg = "IOException should not have occurred";
+                throw new AssertionError(errMsg, ioe);
+            }
+        } else {
+            String msg = "Save dialog should give JFileChooser.APPROVE_OPTION";
+            fail(msg);
+        }
+        String msg = "No confirmation to overwrite needed for new file";
+        assert !chooser.mockResponseHasBeenGiven() : msg;
+    }
+    
+    private void reportFileContents(File file) {
+        System.out.println(file.getName() + " has the following text:");
+        try (FileReader reader = new FileReader(file);
+                Scanner scanner = new Scanner(reader)) {
+            while (scanner.hasNext()) {
+                System.out.println("\"" + scanner.nextLine() + "\"");
+            }
+        } catch (FileNotFoundException fnfe) {
+            String excMsg = "Somehow can't find file " + file.getAbsolutePath();
+            throw new RuntimeException(excMsg, fnfe);
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+        
+    }
+    
+    @AfterMethod
+    public void tearDown() {
+        if (this.createdByTest.exists()) {
+            this.reportFileContents(this.createdByTest);
+        }
+        this.reportFileContents(this.createdBySetUpClass);
     }
     
     @AfterSuite
     public void tearDownClass() {
-        // TODO: Delete example existing file
+        this.createdByTest.delete();
+        System.out.println("Successfully deleted " 
+                + this.createdByTest.getAbsolutePath());
+        this.createdBySetUpClass.delete();
+        System.out.println("Successfully deleted " 
+                + this.createdBySetUpClass.getAbsolutePath());
     }
     
     /**
@@ -103,9 +160,11 @@ public class FileChooserWithOverwriteGuardNGTest {
             switch (this.mockResponse) {
                 case JOptionPane.YES_OPTION:
                     this.returnValue = JFileChooser.APPROVE_OPTION;
+                    break;
                 case JOptionPane.NO_OPTION:
                 case JOptionPane.CANCEL_OPTION:
                     this.returnValue = JFileChooser.CANCEL_OPTION;
+                    break;
                 default:
                     this.returnValue = JFileChooser.ERROR_OPTION;
             }
