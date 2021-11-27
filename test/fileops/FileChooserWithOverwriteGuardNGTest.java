@@ -123,6 +123,55 @@ public class FileChooserWithOverwriteGuardNGTest {
         assertEquals(actual, expected);
     }
     
+    /**
+     * Another test of the approveSelection procedure of the 
+     * FileChooserWithOverwriteGuard class. If the file already exists and the 
+     * user confirms that it may be overwritten, it should be overwritten.
+     */
+    @Test
+    public void testApproveSelectionForExistingFile() {
+        String preMsg = "Existing file should already exist";
+        assert this.createdBySetUpClass.exists() : preMsg;
+        MockFileChooser chooser = new MockFileChooser(JOptionPane.YES_OPTION);
+        chooser.setSelectedFile(this.createdBySetUpClass);
+        int expected = JFileChooser.APPROVE_OPTION;
+        int actual = chooser.showSaveDialog(null);
+        if (expected == actual) {
+            try (FileWriter writer = new FileWriter(this.createdBySetUpClass)) {
+                writer.write("This time, the user approved the overwrite.\n");
+                writer.write("This message placed by approve overwrite test");
+            } catch (IOException ioe) {
+                String errMsg = "IOException should not have occurred";
+                throw new AssertionError(errMsg, ioe);
+            }
+        } else {
+            String msg = "User-approved overwrite should have occurred";
+            fail(msg);
+        }
+        String msg = "User should have been asked to approve overwrite";
+        assert chooser.mockResponseHasBeenGiven() : msg;
+    }
+    
+    @Test
+    public void testRejectSelectionIfCloseWithoutChoice() {
+        String preMsg = "Existing file should already exist";
+        assert this.createdBySetUpClass.exists() : preMsg;
+        JFileChooser chooser = new MockFileChooser(JOptionPane.CLOSED_OPTION);
+        chooser.setSelectedFile(this.createdBySetUpClass);
+        int expected = JFileChooser.CANCEL_OPTION;
+        int actual = chooser.showSaveDialog(null);
+        if (actual == JFileChooser.APPROVE_OPTION) {
+            try (FileWriter writer = new FileWriter(this.createdBySetUpClass)) {
+                writer.write("The user closed the chooser dialog.\n");
+                writer.write("This message should not have been written.");
+            } catch (IOException ioe) {
+                String errMsg = "IOException should not have occurred";
+                throw new AssertionError(errMsg, ioe);
+            }
+        }
+        assertEquals(actual, expected);
+    }
+    
     private void reportFileContents(File file) {
         System.out.println(file.getName() + " has the following text:");
         try (FileReader reader = new FileReader(file);
@@ -136,7 +185,6 @@ public class FileChooserWithOverwriteGuardNGTest {
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
-        
     }
     
     @AfterMethod
@@ -193,6 +241,7 @@ public class FileChooserWithOverwriteGuardNGTest {
                     break;
                 case JOptionPane.NO_OPTION:
                 case JOptionPane.CANCEL_OPTION:
+                case JOptionPane.CLOSED_OPTION:
                     this.returnValue = JFileChooser.CANCEL_OPTION;
                     break;
                 default:
