@@ -44,10 +44,14 @@ public class FileChooserWithOverwriteGuard extends JFileChooser {
                 JOptionPane.YES_NO_CANCEL_OPTION);
     }
     
-    // TODO: Write tests for this
     @Override
     public void approveSelection() {
-        this.getConfirmationResponse();
+        File file = this.getSelectedFile();
+        if (file.exists()) {
+            this.cancelSelection();
+        } else {
+            super.approveSelection();
+        }
     }
     
 }

@@ -65,6 +65,11 @@ public class FileChooserWithOverwriteGuardNGTest {
         }
     }
     
+    /**
+     * Test of the approveSelection procedure of the 
+     * FileChooserWithOverwriteGuard class. If the file does not already exist, 
+     * there should not be any confirmation to overwrite an existing file.
+     */
     @Test
     public void testApproveSelection() {
         System.out.println("approveSelection");
@@ -91,6 +96,31 @@ public class FileChooserWithOverwriteGuardNGTest {
         }
         String msg = "No confirmation to overwrite needed for new file";
         assert !chooser.mockResponseHasBeenGiven() : msg;
+    }
+    
+    /**
+     * Another test of the approveSelection procedure of the 
+     * FileChooserWithOverwriteGuard class. If the file already exists and the 
+     * user asks that it not be overwritten, it should not be overwritten.
+     */
+    @Test
+    public void testRejectSelectionForExistingFile() {
+        String preMsg = "Existing file should already exist";
+        assert this.createdBySetUpClass.exists() : preMsg;
+        JFileChooser chooser = new MockFileChooser(JOptionPane.NO_OPTION);
+        chooser.setSelectedFile(this.createdBySetUpClass);
+        int expected = JFileChooser.CANCEL_OPTION;
+        int actual = chooser.showSaveDialog(null);
+        if (actual == JFileChooser.APPROVE_OPTION) {
+            try (FileWriter writer = new FileWriter(this.createdBySetUpClass)) {
+                writer.write("This time, the user rejected the overwrite.\n");
+                writer.write("This message should not have been written.");
+            } catch (IOException ioe) {
+                String errMsg = "IOException should not have occurred";
+                throw new AssertionError(errMsg, ioe);
+            }
+        }
+        assertEquals(actual, expected);
     }
     
     private void reportFileContents(File file) {
