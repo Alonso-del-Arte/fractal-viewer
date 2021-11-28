@@ -107,7 +107,7 @@ public class FileChooserWithOverwriteGuardNGTest {
     public void testRejectSelectionForExistingFile() {
         String preMsg = "Existing file should already exist";
         assert this.createdBySetUpClass.exists() : preMsg;
-        JFileChooser chooser = new MockFileChooser(JOptionPane.NO_OPTION);
+        JFileChooser chooser = new MockFileChooser(JOptionPane.CANCEL_OPTION);
         chooser.setSelectedFile(this.createdBySetUpClass);
         int expected = JFileChooser.CANCEL_OPTION;
         int actual = chooser.showSaveDialog(null);
@@ -115,6 +115,7 @@ public class FileChooserWithOverwriteGuardNGTest {
             try (FileWriter writer = new FileWriter(this.createdBySetUpClass)) {
                 writer.write("This time, the user rejected the overwrite.\n");
                 writer.write("This message should not have been written.");
+                fail("Should not have been able to overwrite after cancel");
             } catch (IOException ioe) {
                 String errMsg = "IOException should not have occurred";
                 throw new AssertionError(errMsg, ioe);
@@ -150,26 +151,6 @@ public class FileChooserWithOverwriteGuardNGTest {
         }
         String msg = "User should have been asked to approve overwrite";
         assert chooser.mockResponseHasBeenGiven() : msg;
-    }
-    
-    @Test
-    public void testRejectSelectionIfCloseWithoutChoice() {
-        String preMsg = "Existing file should already exist";
-        assert this.createdBySetUpClass.exists() : preMsg;
-        JFileChooser chooser = new MockFileChooser(JOptionPane.CLOSED_OPTION);
-        chooser.setSelectedFile(this.createdBySetUpClass);
-        int expected = JFileChooser.CANCEL_OPTION;
-        int actual = chooser.showSaveDialog(null);
-        if (actual == JFileChooser.APPROVE_OPTION) {
-            try (FileWriter writer = new FileWriter(this.createdBySetUpClass)) {
-                writer.write("The user closed the chooser dialog.\n");
-                writer.write("This message should not have been written.");
-            } catch (IOException ioe) {
-                String errMsg = "IOException should not have occurred";
-                throw new AssertionError(errMsg, ioe);
-            }
-        }
-        assertEquals(actual, expected);
     }
     
     private void reportFileContents(File file) {
