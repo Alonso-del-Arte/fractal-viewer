@@ -19,7 +19,6 @@ package fileops;
 import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
@@ -155,16 +154,13 @@ public class FileChooserWithOverwriteGuardNGTest {
     
     private void reportFileContents(File file) {
         System.out.println(file.getName() + " has the following text:");
-        try (FileReader reader = new FileReader(file);
-                Scanner scanner = new Scanner(reader)) {
+        try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNext()) {
                 System.out.println("\"" + scanner.nextLine() + "\"");
             }
         } catch (FileNotFoundException fnfe) {
             String excMsg = "Somehow can't find file " + file.getAbsolutePath();
             throw new RuntimeException(excMsg, fnfe);
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
         }
     }
     
