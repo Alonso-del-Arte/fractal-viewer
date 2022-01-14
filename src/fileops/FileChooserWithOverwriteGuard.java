@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Alonso del Arte
+ * Copyright (C) 2022 Alonso del Arte
  *
  * This program is free software: you can redistribute it and/or modify it under 
  * the terms of the GNU General Public License as published by the Free Software 
@@ -46,13 +46,22 @@ public class FileChooserWithOverwriteGuard extends JFileChooser {
     
     @Override
     public void approveSelection() {
-        File file = this.getSelectedFile();
-        if (file.exists()) {
-            int response = this.getConfirmationResponse();
-            if (response == JOptionPane.CANCEL_OPTION) {
-                this.cancelSelection();
-            }
-        }
+        this.cancelSelection();
+//        File file = this.getSelectedFile();
+//        if (file.exists()) {
+//            int response = this.getConfirmationResponse();
+//            switch (response) {
+//                case JOptionPane.YES_OPTION:
+//                case JOptionPane.NO_OPTION:
+//                    super.approveSelection();
+//                    return;
+//                case JOptionPane.CANCEL_OPTION:
+//                default:
+//                    this.cancelSelection();
+//            }
+//        } else {
+//            super.approveSelection();
+//        }
     }
     
 }
