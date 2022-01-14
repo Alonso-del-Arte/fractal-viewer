@@ -329,6 +329,12 @@ public class FileChooserWithOverwriteGuardNGTest {
             this.returnValue = JFileChooser.CANCEL_OPTION;
         }
         
+        @Override
+        public void approveSelection() {
+            this.returnValue = JFileChooser.APPROVE_OPTION;
+            super.approveSelection();
+        }
+        
         /**
          * Does not actually show a save dialog. But it does call 
          * <code>approveSelection()</code> and hopefully that does check whether 
