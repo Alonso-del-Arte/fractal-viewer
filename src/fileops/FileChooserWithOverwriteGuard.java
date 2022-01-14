@@ -32,7 +32,6 @@ import javax.swing.JOptionPane;
  * requirements regarding hidden items.</p>
  * @author Alonso del Arte
  */
-// TODO: Write tests for this
 public class FileChooserWithOverwriteGuard extends JFileChooser {
     
     private static final String QUESTION 
@@ -46,7 +45,11 @@ public class FileChooserWithOverwriteGuard extends JFileChooser {
     
     @Override
     public void approveSelection() {
-        this.cancelSelection();
+//System.out.println("approveSelection() has been invoked");
+//        this.cancelSelection();
+        super.approveSelection();
+        
+        
 //        File file = this.getSelectedFile();
 //        if (file.exists()) {
 //            int response = this.getConfirmationResponse();
