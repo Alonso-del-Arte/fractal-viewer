@@ -108,7 +108,7 @@ public class FileChooserWithOverwriteGuardNGTest {
      * FileChooserWithOverwriteGuard class. If the file already exists and the 
      * user asks that it not be overwritten, it should not be overwritten.
      */
-//    @Test
+    @Test
     public void testRejectSelectionForExistingFile() {
         String preMsg = "Existing file should already exist";
         assert this.createdBySetUpClass.exists() : preMsg;
@@ -134,7 +134,7 @@ public class FileChooserWithOverwriteGuardNGTest {
      * FileChooserWithOverwriteGuard class. If the file already exists and the 
      * user confirms that it may be overwritten, it should be overwritten.
      */
-//    @Test
+    @Test
     public void testApproveSelectionForExistingFile() {
         String preMsg = "Existing file should already exist";
         assert this.createdBySetUpClass.exists() : preMsg;
@@ -164,7 +164,7 @@ public class FileChooserWithOverwriteGuardNGTest {
      * user confirms that it may be overwritten, that understanding should be 
      * passed up the class hierarchy.
      */
-//    @Test
+    @Test
     public void testApproveSelectionExistingBubblesUpCallHierarchy() {
         String preMsg = "Existing file should already exist";
         assert this.createdBySetUpClass.exists() : preMsg;
@@ -188,7 +188,7 @@ public class FileChooserWithOverwriteGuardNGTest {
      * still bubble up the class hierarchy. No file will be written for this 
      * particular test.
      */
-//    @Test
+    @Test
     public void testApproveSelectionNewBubblesUpCallHierarchy() {
         String filename = TEMP_DIR_PATH + File.separatorChar + "OtherNewFile" 
                 + RANDOM.nextInt() + ".txt";
@@ -203,26 +203,30 @@ public class FileChooserWithOverwriteGuardNGTest {
         assert chooser.toString().contains("returnValue=APPROVE_OPTION") : msg;
     }
     
-//    @Test
+    @Test
     public void testResponseNoDoesNotCloseChooserDialog() {
-        // TODO: Figure out proper way to test this
         String preMsg = "Existing file should already exist";
         assert this.createdBySetUpClass.exists() : preMsg;
         ThreadableMockFileChooser chooser 
-                = new ThreadableMockFileChooser(JOptionPane.YES_OPTION);
+                = new ThreadableMockFileChooser(JOptionPane.NO_OPTION);
         chooser.setSelectedFile(this.createdBySetUpClass);
         Thread thread = new Thread(chooser);
         thread.start();
+        int millis = 500;
+        System.out.println("Giving threaded file chooser " + millis 
+                + "ms to give result...");
         try {
-            thread.join(500);
+            thread.join(millis);
             Object dialogResult = chooser.result;
-            System.out.println("dialogResult = " + dialogResult.toString());
-            thread.interrupt();
-//        String msg = "\"No\" should give opportunity to choose other filename";
-//        assert dialogResult == null : msg;
-        fail("Haven't figured out proper way to test this");
+            String msg = "Dialog result should have been null, not " 
+                    + dialogResult.toString();
+            fail(msg);
         } catch (InterruptedException ie) {
-            String msg = "InterruptedException occurred: " + ie.getMessage();
+            String excMsg = "InterruptedException occurred";
+            throw new RuntimeException(excMsg, ie);
+        } catch (NullPointerException npe) {
+            System.out.println("Response \"No\" correctly kept up dialog");
+            System.out.println("\"" + npe.getMessage() + "\"");
         }
     }
     
@@ -406,9 +410,9 @@ public class FileChooserWithOverwriteGuardNGTest {
         }
 
         /**
-         * Sole constructor. The superclass constructor is called implicitly. 
-         * This constructor has nothing to add other than passing up the 
-         * response code to mock up to the superclass constructor.
+         * Sole constructor. This constructor has nothing to add other than 
+         * passing up the response code to mock up to the superclass 
+         * constructor.
          * @param code The response code this mock file chooser's {@link
          * #getConfirmationResponse()} will always return.
          */

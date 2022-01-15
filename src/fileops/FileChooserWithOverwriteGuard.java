@@ -45,26 +45,20 @@ public class FileChooserWithOverwriteGuard extends JFileChooser {
     
     @Override
     public void approveSelection() {
-//System.out.println("approveSelection() has been invoked");
-//        this.cancelSelection();
-        super.approveSelection();
-        
-        
-//        File file = this.getSelectedFile();
-//        if (file.exists()) {
-//            int response = this.getConfirmationResponse();
-//            switch (response) {
-//                case JOptionPane.YES_OPTION:
-//                case JOptionPane.NO_OPTION:
-//                    super.approveSelection();
-//                    return;
-//                case JOptionPane.CANCEL_OPTION:
-//                default:
-//                    this.cancelSelection();
-//            }
-//        } else {
-//            super.approveSelection();
-//        }
+        File file = this.getSelectedFile();
+        if (file.exists()) {
+            int response = this.getConfirmationResponse();
+            switch (response) {
+                case JOptionPane.YES_OPTION:
+                    super.approveSelection();
+                case JOptionPane.NO_OPTION:
+                    return;
+                default:
+                    this.cancelSelection();
+            }
+        } else {
+            super.approveSelection();
+        }
     }
     
 }
