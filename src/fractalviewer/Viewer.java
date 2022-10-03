@@ -36,20 +36,22 @@ public abstract class Viewer extends JPanel implements ActionListener,
     
     boolean ownsClipboard = false;
 
+    // TODO: Write tests for this
     JMenuItem makeMenuItem(String menuItemText, String accessibleDescription,
             String actionCommand, KeyStroke accelerator) {
         JMenuItem menuItem = new JMenuItem(menuItemText);
-        menuItem.getAccessibleContext()
-                .setAccessibleDescription(accessibleDescription);
-        menuItem.setActionCommand(actionCommand);
-        menuItem.setAccelerator(accelerator);
-        menuItem.addActionListener(this);
+//        menuItem.getAccessibleContext()
+//                .setAccessibleDescription(accessibleDescription);
+//        menuItem.setActionCommand(actionCommand);
+//        menuItem.setAccelerator(accelerator);
+//        menuItem.addActionListener(this);
         return menuItem;
     }
     
+    // TODO: Write tests for this
     @Override
     public void lostOwnership(Clipboard clipboard, Transferable contents) {
-        this.ownsClipboard = false;
+//        this.ownsClipboard = false;
     }
 
 }
