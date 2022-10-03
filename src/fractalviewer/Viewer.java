@@ -19,6 +19,7 @@ package fractalviewer;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.Transferable;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -40,11 +41,11 @@ public abstract class Viewer extends JPanel implements ActionListener,
     JMenuItem makeMenuItem(String menuItemText, String accessibleDescription,
             String actionCommand, KeyStroke accelerator) {
         JMenuItem menuItem = new JMenuItem(menuItemText);
-//        menuItem.getAccessibleContext()
-//                .setAccessibleDescription(accessibleDescription);
-//        menuItem.setActionCommand(actionCommand);
-//        menuItem.setAccelerator(accelerator);
-//        menuItem.addActionListener(this);
+        menuItem.getAccessibleContext()
+                .setAccessibleDescription(accessibleDescription);
+        menuItem.setActionCommand(actionCommand);
+        menuItem.setAccelerator(accelerator);
+        menuItem.addActionListener(this);
         return menuItem;
     }
     
