@@ -34,6 +34,8 @@ import javax.swing.JOptionPane;
  */
 public class FileChooserWithOverwriteGuard extends JFileChooser {
     
+    private static final long serialVersionUID = 4552602532748197888L;
+
     private static final String QUESTION 
             = "Do you want to overwrite the existing file?";
     

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Alonso del Arte
+ * Copyright (C) 2022 Alonso del Arte
  *
  * This program is free software: you can redistribute it and/or modify it under 
  * the terms of the GNU General Public License as published by the Free Software 
@@ -31,18 +31,6 @@ public class ComplexNumber {
     private final double realPart, imagPart;
     
     /**
-     * Gives a textual representation of this complex number. Note that if 
-     * either the real or imaginary part is negative, or if they both are, the 
-     * proper minus sign character will be used in the output.
-     * @return The textual representation. For example, if this number is 125 
-     * &minus; 7<i>i</i>, this would return "125.0 &minus; 7.0i".
-     */
-    @Override
-    public String toString() {
-        return this.toASCIIString().replace("-", "\u2212");
-    }
-    
-    /**
      * Gives a textual representation of this complex number, using only ASCII 
      * characters.
      * @return The textual representation. For example, if this number is 125 
@@ -52,6 +40,18 @@ public class ComplexNumber {
         String intermediate = this.realPart + " + " + this.imagPart + "i";
         intermediate = intermediate.replace("+ -", "- ");
         return intermediate;
+    }
+    
+    /**
+     * Gives a textual representation of this complex number. Note that if 
+     * either the real or imaginary part is negative, or if they both are, the 
+     * proper minus sign character will be used in the output.
+     * @return The textual representation. For example, if this number is 125 
+     * &minus; 7<i>i</i>, this would return "125.0 &minus; 7.0i".
+     */
+    @Override
+    public String toString() {
+        return this.toASCIIString().replace("-", "\u2212");
     }
     
     /**
